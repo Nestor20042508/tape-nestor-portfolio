@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="Portfolio professionnel avec défilement fluide et animations" />
+        <meta name="author" content="TAPE Segnannou Nestor" />
+        <title> TAPE Segnannou Nestor</title>
+        <link rel="icon" type="image/x-icon" href="logoport.png" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
+        
+        <style>
+            /* ===== Styles globaux ===== */
+            html {
+                scroll-behavior: smooth;
+            }
+            body, html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                font-family: 'Muli', sans-serif;
+                background-color: #eef3f9;
+                color: #444;
+                overflow-x: hidden;
+            }
+            /* ===== Barre de navigation / SideNav ===== */
+            #sideNav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 250px;
+                height: 100%;
+                background-color: #2c3e50;
+                padding-top: 20px;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+            }
+            #sideNav .navbar-brand {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                margin-bottom: 30px;
+                /* Ajout de style pour le nom */
+                color: #ffffff; /* Couleur blanche pour être visible sur le fond sombre */
+                text-decoration: none; /* Supprimer le soulignement par défaut */
+                font-family: 'Saira Extra Condensed', sans-serif; /* Nouvelle police pour le nom */
+                font-size: 1.5rem; /* Taille de police plus grande */
+                font-weight: 700;
+            }
+            #sideNav .img-profile {
+                width: 120px;
+                border-radius: 50%;
+                border: 4px solid #fff;
+                transition: transform 0.5s ease-in-out;
+            }
+            #sideNav .img-profile:hover {
+                transform: rotate(360deg) scale(1.1);
+            }
+            #sideNav .navbar-nav {
+                display: flex;
+                flex-direction: column;
+                padding-left: 0;
+            }
+            #sideNav .nav-link {
+                color: #fff;
+                font-weight: 700;
+                margin: 10px 0;
+                padding: 10px 20px;
+                transition: background 0.3s, transform 0.3s, color 0.3s;
+                border-radius: 5px;
+                position: relative;
+                overflow: hidden;
+                text-decoration: none;
+                /* Changement de police pour les options de navigation */
+                font-family: 'Saira Extra Condensed', sans-serif;
+                font-size: 1.2rem;
+            }
+            #sideNav .nav-link::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(255, 255, 255, 0.1);
+                transition: transform 0.3s ease-out;
+                z-index: 0;
+            }
+            #sideNav .nav-link:hover::before {
+                transform: translateX(100%);
+            }
+            #sideNav .nav-link:hover {
+                background-color: transparent;
+                color: #fff;
+                transform: scale(1.05);
+            }
+            /* ===== Contenu de la page ===== */
+            .container-fluid {
+                margin-left: 250px;
+                padding: 60px 40px;
+                transition: margin-left 0.5s ease;
+            }
+            /* ===== Sections du CV ===== */
+            .resume-section {
+                margin-bottom: 60px;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            }
+            .resume-section.is-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .resume-section h2 {
+                color: #3498db;
+                margin-bottom: 20px;
+                font-size: 2.5rem;
+                font-weight: 700;
+                position: relative;
+                padding-bottom: 10px;
+            }
+            .resume-section h2::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 0;
+                height: 3px;
+                background-color: #3498db;
+                transition: width 0.5s ease-in-out;
+            }
+            .resume-section.is-visible h2::after {
+                width: 50%;
+            }
+            .resume-section-content h3 {
+                margin-bottom: 5px;
+                font-weight: 700;
+                color: #555;
+            }
+            .resume-section-content .subheading {
+                font-style: italic;
+                color: #888;
+                margin-bottom: 10px;
+                transition: color 0.3s ease;
+            }
+            .resume-section-content p {
+                line-height: 1.6;
+            }
+            /* ===== Icônes sociales ===== */
+            .social-icons {
+                margin-top: 20px;
+            }
+            .social-icons a {
+                display: inline-block;
+                width: 45px;
+                height: 45px;
+                background-color: #fff;
+                color: #3498db;
+                border-radius: 50%;
+                text-align: center;
+                line-height: 45px;
+                margin-right: 15px;
+                transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .social-icons a:hover {
+                transform: translateY(-5px);
+                background-color: #3498db;
+                color: #fff;
+                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+            }
+            /* ===== Listes et Icônes ===== */
+            .dev-icons i {
+                font-size: 2.5rem;
+                margin-right: 20px;
+                color: #3498db;
+                transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+            }
+            .dev-icons i:hover {
+                color: #555;
+                transform: scale(1.2) rotate(10deg);
+            }
+            .fa-ul li {
+                margin-bottom: 10px;
+            }
+            /* ===== Ligne horizontale ===== */
+            hr.m-0 {
+                border: 0;
+                height: 2px;
+                background: linear-gradient(to right, #3498db, #eef3f9);
+                margin: 40px 0;
+            }
+            /* ===== Réactif ===== */
+            @media (max-width: 992px) {
+                #sideNav {
+                    position: relative;
+                    width: 100%;
+                    height: auto;
+                }
+                .container-fluid {
+                    margin-left: 0;
+                    padding: 20px;
+                }
+                .navbar-nav {
+                    flex-direction: row;
+                    justify-content: space-around;
+                }
+                .nav-link {
+                    margin: 5px;
+                    padding: 8px 12px;
+                }
+            }
+        </style>
+    </head>
+    <body id="page-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">
+                <span class="d-block d-lg-none">TAPE Segnannou Nestor</span>
+                <span class="d-none d-lg-block">
+                    <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="pro.jpg" alt="Photo de profil de TAPE Segnannou Nestor" />
+                </span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Présentation</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#experience">Expérience</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">Formation</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Compétences</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Intérêts</a></li>
+                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Récompenses</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid p-0">
+            <section class="resume-section" id="about">
+                <div class="resume-section-content">
+                    <h1 class="mb-0">
+                        TAPE Segnannou
+                        <span class="text-primary">Nestor</span>
+                    </h1>
+                    <div class="subheading mb-5">
+                        Aitchedji · Abomey-calavi, (+229) 0160427001·
+                        <a href="mailto:name@email.com">name@email.com</a>
+                    </div>
+                    <p class="lead mb-5">Je suis un développeur web et mobile passionné par la création d'expériences numériques de qualité. Spécialisé dans les frameworks agiles, je m'engage à construire des solutions robustes et innovantes, en mettant l'accent sur la performance et l'ergonomie. Mon approche itérative me permet de collaborer efficacement et d'optimiser la valeur de chaque projet. En tant qu'entrepreneur, je combine ma créativité technique avec un sens aigu des affaires. Mes compétences en motion design me permettent de donner vie aux interfaces et aux marques, ajoutant une dimension visuelle percutante à mes créations. Par ailleurs, mon expérience en tant que trader et e-commerçant m'a doté d'une compréhension unique des dynamiques du marché et des impératifs commerciaux, me permettant de concevoir des produits qui sont non seulement techniquement solides, mais aussi commercialement viables. Je suis toujours à la recherche de nouveaux défis et de collaborations qui repoussent les limites de la technologie et de l'innovation.</p>
+                    <div class="social-icons">
+                        <a class="social-icon" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="social-icon" href="#!"><i class="fab fa-github"></i></a>
+                        <a class="social-icon" href="#!"><i class="fab fa-twitter"></i></a>
+                        <a class="social-icon" href="#!"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </section>
+            <hr class="m-0" />
+            <section class="resume-section" id="experience">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Expérience</h2>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Développement de Projets & Entrepreneurial</h3>
+                            <div class="subheading mb-3">Développeur Web & Mobile Indépendant</div>
+                            <ul class="fa-ul mb-0">
+                                <li>
+                                    <span class="fa-li"><i class="fas fa-check"></i></span>
+                                    Gestion de projets et développement complet pour plus de 8 projets web et mobiles de soutenance.
+                                </li>
+                                <li>
+                                    <span class="fa-li"><i class="fas fa-check"></i></span>
+                                    Conception et réalisation de plus de 4 grands projets privés en moins d'un mois.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <div class="subheading mb-3">E-commerçant & Créateur de Contenu</div>
+                            <ul class="fa-ul mb-0">
+                                <li>
+                                    <span class="fa-li"><i class="fas fa-check"></i></span>
+                                    Création et gestion d'un canal de diffusion de football ayant fédéré une communauté engagée.
+                                </li>
+                                <li>
+                                    <span class="fa-li"><i class="fas fa-check"></i></span>
+                                    Co-fondateur d'une entreprise de production de savon, avec une forte implication dans la stratégie numérique et en e-commerce.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Expérience Professionnelle & Autres Compétences</h3>
+                            <div class="subheading mb-3">Spécialiste en Informatique Industrielle (2 ans d'expérience)</div>
+                            <p>Application de mes compétences en informatique industrielle pour optimiser des processus et des systèmes.</p>
+                            <div class="subheading mt-3 mb-1">Agent de Terrain | A HFAT</div>
+                            <p class="mb-0">Collaboration sur le terrain en tant qu'agent A HFAT, développant des compétences en communication et en travail d'équipe.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <hr class="m-0" />
+            <section class="resume-section" id="education">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Formation</h2>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">CITECH</h3>
+                            <div class="subheading mb-3">Études informatiques avancées</div>
+                            <p>2 ans d'études informatiques.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">HECM</h3>
+                            <div class="subheading mb-3">Informatique Industrielle</div>
+                            <p>2 ans d'études en informatique industrielle.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Formation en Gestion d'Entreprise</h3>
+                            <p>3 mois de formation en communication et gestion d'entreprise.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Formation en Motion Design</h3>
+                            <p>2 mois de formation en motion design.</p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column flex-md-row justify-content-between">
+                        <div class="flex-grow-1">
+                            <h3 class="mb-0">Collège Catholique d'Azovè</h3>
+                            <p>Études du Cours Élémentaire au Collège.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <hr class="m-0" />
+            <section class="resume-section" id="skills">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Compétences</h2>
+                    <div class="subheading mb-3">Langages de programmation & Outils</div>
+                    <ul class="list-inline dev-icons">
+                        <li class="list-inline-item"><i class="fab fa-laravel"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-js-square"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-html5"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-css3-alt"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-php"></i></li>
+                        <li class="list-inline-item"><i class="fab fa-wordpress"></i></li>
+                        <li class="list-inline-item"><i class="fas fa-terminal"></i></li>
+                    </ul>
+                    <div class="subheading mb-3">Autres compétences</div>
+                    <ul class="fa-ul mb-0">
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Gestion d'entreprise & Marketing
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Motion Design
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Développement Full-Stack (Web & Mobile)
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-check"></i></span>
+                            Développement Agile & Scrum
+                        </li>
+                    </ul>
+                </div>
+            </section>
+            <hr class="m-0" />
+            <section class="resume-section" id="interests">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Intérêts</h2>
+                    <p>Je suis passionné par l'apprentissage continu et l'exploration de nouvelles connaissances. J'ai une grande curiosité pour le monde des affaires et les stratégies de marché. J'apprécie le sport, la lecture de livres, et le visionnage de documentaires qui élargissent ma compréhension du monde.</p>
+                    <p class="mb-0">Dans mon temps libre, j'aime la solitude, ce qui me permet de me concentrer sur des projets personnels et d'acquérir de nouvelles compétences. Je regarde également des films et séries, mais uniquement à des fins éducatives ou d'inspiration, pour analyser le storytelling et l'aspect visuel.</p>
+                </div>
+            </section>
+            <hr class="m-0" />
+            <section class="resume-section" id="awards">
+                <div class="resume-section-content">
+                    <h2 class="mb-5">Récompenses</h2>
+                    <ul class="fa-ul mb-0">
+                        <li>
+                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
+                            *Attestation* en Développement Web et Mobile
+                        </li>
+                        <li>
+                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
+                            Médaille du *Meilleur Joueur* au collège
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const sections = document.querySelectorAll(".resume-section");
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("is-visible");
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    rootMargin: "0px",
+                    threshold: 0.2
+                });
+                sections.forEach(section => {
+                    observer.observe(section);
+                });
+            });
+        </script>
+    </body>
+</html>
