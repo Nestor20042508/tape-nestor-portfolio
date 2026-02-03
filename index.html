@@ -1,423 +1,888 @@
 <!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="Portfolio professionnel avec défilement fluide et animations" />
-        <meta name="author" content="TAPE Segnannou Nestor" />
-        <title> TAPE Segnannou Nestor</title>
-        <link rel="icon" type="image/x-icon" href="logoport.png" />
-        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-        <link href="https://fonts.googleapis.com/css?family=Saira+Extra+Condensed:500,700" rel="stylesheet" type="text/css" />
-        <link href="https://fonts.googleapis.com/css?family=Muli:400,400i,800,800i" rel="stylesheet" type="text/css" />
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAPE Nestor Segnannou | Développeur Web & Mobile – Solutions Digitales pour Entreprises Africaines</title>
+    <meta name="description" content="Développeur Web & Mobile spécialisé dans les solutions digitales pour entreprises africaines. Expert en React, Node.js, applications web et mobile.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        primary: '#0f172a',
+                        secondary: '#1e293b',
+                        accent: '#3b82f6',
+                        muted: '#64748b',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
         
-        <style>
-            /* ===== Styles globaux ===== */
-            html {
-                scroll-behavior: smooth;
-            }
-            body, html {
-                margin: 0;
-                padding: 0;
-                height: 100%;
-                font-family: 'Muli', sans-serif;
-                background-color: #eef3f9;
-                color: #444;
-                overflow-x: hidden;
-            }
-            /* ===== Barre de navigation / SideNav ===== */
-            #sideNav {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 250px;
-                height: 100%;
-                background-color: #2c3e50;
-                padding-top: 20px;
-                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-            }
-            #sideNav .navbar-brand {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                margin-bottom: 30px;
-                /* Ajout de style pour le nom */
-                color: #ffffff; /* Couleur blanche pour être visible sur le fond sombre */
-                text-decoration: none; /* Supprimer le soulignement par défaut */
-                font-family: 'Saira Extra Condensed', sans-serif; /* Nouvelle police pour le nom */
-                font-size: 1.5rem; /* Taille de police plus grande */
-                font-weight: 700;
-            }
-            #sideNav .img-profile {
-                width: 120px;
-                border-radius: 50%;
-                border: 4px solid #fff;
-                transition: transform 0.5s ease-in-out;
-            }
-            #sideNav .img-profile:hover {
-                transform: rotate(360deg) scale(1.1);
-            }
-            #sideNav .navbar-nav {
-                display: flex;
-                flex-direction: column;
-                padding-left: 0;
-            }
-            #sideNav .nav-link {
-                color: #fff;
-                font-weight: 700;
-                margin: 10px 0;
-                padding: 10px 20px;
-                transition: background 0.3s, transform 0.3s, color 0.3s;
-                border-radius: 5px;
-                position: relative;
-                overflow: hidden;
-                text-decoration: none;
-                /* Changement de police pour les options de navigation */
-                font-family: 'Saira Extra Condensed', sans-serif;
-                font-size: 1.2rem;
-            }
-            #sideNav .nav-link::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(255, 255, 255, 0.1);
-                transition: transform 0.3s ease-out;
-                z-index: 0;
-            }
-            #sideNav .nav-link:hover::before {
-                transform: translateX(100%);
-            }
-            #sideNav .nav-link:hover {
-                background-color: transparent;
-                color: #fff;
-                transform: scale(1.05);
-            }
-            /* ===== Contenu de la page ===== */
-            .container-fluid {
-                margin-left: 250px;
-                padding: 60px 40px;
-                transition: margin-left 0.5s ease;
-            }
-            /* ===== Sections du CV ===== */
-            .resume-section {
-                margin-bottom: 60px;
-                opacity: 0;
-                transform: translateY(20px);
-                transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            }
-            .resume-section.is-visible {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            .resume-section h2 {
-                color: #3498db;
-                margin-bottom: 20px;
-                font-size: 2.5rem;
-                font-weight: 700;
-                position: relative;
-                padding-bottom: 10px;
-            }
-            .resume-section h2::after {
-                content: '';
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 0;
-                height: 3px;
-                background-color: #3498db;
-                transition: width 0.5s ease-in-out;
-            }
-            .resume-section.is-visible h2::after {
-                width: 50%;
-            }
-            .resume-section-content h3 {
-                margin-bottom: 5px;
-                font-weight: 700;
-                color: #555;
-            }
-            .resume-section-content .subheading {
-                font-style: italic;
-                color: #888;
-                margin-bottom: 10px;
-                transition: color 0.3s ease;
-            }
-            .resume-section-content p {
-                line-height: 1.6;
-            }
-            /* ===== Icônes sociales ===== */
-            .social-icons {
-                margin-top: 20px;
-            }
-            .social-icons a {
-                display: inline-block;
-                width: 45px;
-                height: 45px;
-                background-color: #fff;
-                color: #3498db;
-                border-radius: 50%;
-                text-align: center;
-                line-height: 45px;
-                margin-right: 15px;
-                transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-            .social-icons a:hover {
-                transform: translateY(-5px);
-                background-color: #3498db;
-                color: #fff;
-                box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-            }
-            /* ===== Listes et Icônes ===== */
-            .dev-icons i {
-                font-size: 2.5rem;
-                margin-right: 20px;
-                color: #3498db;
-                transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
-            }
-            .dev-icons i:hover {
-                color: #555;
-                transform: scale(1.2) rotate(10deg);
-            }
-            .fa-ul li {
-                margin-bottom: 10px;
-            }
-            /* ===== Ligne horizontale ===== */
-            hr.m-0 {
-                border: 0;
-                height: 2px;
-                background: linear-gradient(to right, #3498db, #eef3f9);
-                margin: 40px 0;
-            }
-            /* ===== Réactif ===== */
-            @media (max-width: 992px) {
-                #sideNav {
-                    position: relative;
-                    width: 100%;
-                    height: auto;
-                }
-                .container-fluid {
-                    margin-left: 0;
-                    padding: 20px;
-                }
-                .navbar-nav {
-                    flex-direction: row;
-                    justify-content: space-around;
-                }
-                .nav-link {
-                    margin: 5px;
-                    padding: 8px 12px;
-                }
-            }
-        </style>
-    </head>
-    <body id="page-top">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" id="sideNav">
-            <a class="navbar-brand js-scroll-trigger" href="#page-top">
-                <span class="d-block d-lg-none">TAPE Segnannou Nestor</span>
-                <span class="d-none d-lg-block">
-                    <img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="proo.jpg" alt="Photo de profil de TAPE Segnannou Nestor" />
-                </span>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Présentation</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#experience">Expérience</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#education">Formation</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#skills">Compétences</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#interests">Intérêts</a></li>
-                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#awards">Récompenses</a></li>
-                </ul>
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .skill-bar {
+            background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+            height: 4px;
+            border-radius: 2px;
+            transition: width 1s ease-out;
+        }
+        
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563eb;
+        }
+
+        .avatar-glow {
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-primary text-gray-100 font-sans antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-primary/90 backdrop-blur-md border-b border-white/10 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-2xl font-bold font-serif text-white">
+                        TAPE<span class="text-blue-500">.</span>Dev
+                    </span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#accueil" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Accueil</a>
+                    <a href="#competences" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Compétences</a>
+                    <a href="#projets" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Projets</a>
+                    <a href="#processus" class="text-gray-300 hover:text-white transition-colors text-sm font-medium">Processus</a>
+                    <a href="#contact" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-full text-sm font-medium transition-all hover:scale-105">
+                        Me Contacter
+                    </a>
+                </div>
+                
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
             </div>
-        </nav>
-        <div class="container-fluid p-0">
-            <section class="resume-section" id="about">
-                <div class="resume-section-content">
-                    <h1 class="mb-0">
-                        TAPE Segnannou
-                        <span class="text-primary">Nestor</span>
-                    </h1>
-                    <div class="subheading mb-5">
-                        Djadjo · Abomey-calavi, (+229) 0160427001·
-                        <a href="mailto:nestortape804@email.com">nestortape804@email.com</a>
-                    </div>
-                    <p class="lead mb-5">Je suis un développeur web et mobile passionné par la création d'expériences numériques de qualité. Spécialisé dans les frameworks agiles, je m'engage à construire des solutions robustes et innovantes, en mettant l'accent sur la performance et l'ergonomie. Mon approche itérative me permet de collaborer efficacement et d'optimiser la valeur de chaque projet. En tant qu'entrepreneur, je combine ma créativité technique avec un sens aigu des affaires. Mes compétences en motion design me permettent de donner vie aux interfaces et aux marques, ajoutant une dimension visuelle percutante à mes créations. Par ailleurs, mon expérience en tant que trader et e-commerçant m'a doté d'une compréhension unique des dynamiques du marché et des impératifs commerciaux, me permettant de concevoir des produits qui sont non seulement techniquement solides, mais aussi commercialement viables. Je suis toujours à la recherche de nouveaux défis et de collaborations qui repoussent les limites de la technologie et de l'innovation.</p>
-                    <div class="social-icons">
-
-                        <a class="social-icon" href="https://web.facebook.com/lesjumeauxgariman/"><i class="fab fa-facebook-f"></i></a>
-                    </div>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <section class="resume-section" id="experience">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Expérience</h2>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Développement de Projets & Entrepreneurial</h3>
-                            <div class="subheading mb-3">Développeur Web & Mobile Indépendant</div>
-                            <ul class="fa-ul mb-0">
-                                <li>
-                                    <span class="fa-li"><i class="fas fa-check"></i></span>
-                                    Gestion de projets et développement complet pour plus de 8 projets web et mobiles de soutenance.
-                                </li>
-                                <li>
-                                    <span class="fa-li"><i class="fas fa-check"></i></span>
-                                    Conception et réalisation de plus de 4 grands projets privés en moins d'un mois.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <div class="subheading mb-3">E-commerçant & Créateur de Contenu</div>
-                            <ul class="fa-ul mb-0">
-                                <li>
-                                    <span class="fa-li"><i class="fas fa-check"></i></span>
-                                    Création et gestion d'un canal de diffusion de football ayant fédéré une communauté engagée.
-                                </li>
-                                <li>
-                                    <span class="fa-li"><i class="fas fa-check"></i></span>
-                                    Co-fondateur d'une entreprise de production de savon, avec une forte implication dans la stratégie numérique et en e-commerce.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Expérience Professionnelle & Autres Compétences</h3>
-                            <div class="subheading mb-3">Spécialiste en Informatique Industrielle (2 ans d'expérience)</div>
-                            <p>Application de mes compétences en informatique industrielle pour optimiser des processus et des systèmes.</p>
-                            <div class="subheading mt-3 mb-1">Agent de Terrain | A HFAT</div>
-                            <p class="mb-0">Collaboration sur le terrain en tant qu'agent A HFAT, développant des compétences en communication et en travail d'équipe.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <section class="resume-section" id="education">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Formation</h2>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">CITECH</h3>
-                            <div class="subheading mb-3">Études informatiques avancées</div>
-                            <p>2 ans d'études informatiques.</p>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">HECM</h3>
-                            <div class="subheading mb-3">Informatique Industrielle</div>
-                            <p>2 ans d'études en informatique industrielle.</p>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Formation en Gestion d'Entreprise</h3>
-                            <p>3 mois de formation en communication et gestion d'entreprise.</p>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between mb-5">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Formation en Motion Design</h3>
-                            <p>2 mois de formation en motion design.</p>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column flex-md-row justify-content-between">
-                        <div class="flex-grow-1">
-                            <h3 class="mb-0">Collège Catholique d'Azovè</h3>
-                            <p>Études du Cours Élémentaire au Collège.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <section class="resume-section" id="skills">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Compétences</h2>
-                    <div class="subheading mb-3">Langages de programmation & Outils</div>
-                    <ul class="list-inline dev-icons">
-                        <li class="list-inline-item"><i class="fab fa-laravel"></i></li>
-                        <li class="list-inline-item"><i class="fab fa-js-square"></i></li>
-                        <li class="list-inline-item"><i class="fab fa-html5"></i></li>
-                        <li class="list-inline-item"><i class="fab fa-css3-alt"></i></li>
-                        <li class="list-inline-item"><i class="fab fa-php"></i></li>
-                        <li class="list-inline-item"><i class="fab fa-wordpress"></i></li>
-                        <li class="list-inline-item"><i class="fas fa-terminal"></i></li>
-                    </ul>
-                    <div class="subheading mb-3">Autres compétences</div>
-                    <ul class="fa-ul mb-0">
-                        <li>
-                            <span class="fa-li"><i class="fas fa-check"></i></span>
-                            Gestion d'entreprise & Marketing
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-check"></i></span>
-                            Motion Design
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-check"></i></span>
-                            Développement Full-Stack (Web & Mobile)
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-check"></i></span>
-                            Développement Agile & Scrum
-                        </li>
-                    </ul>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <section class="resume-section" id="interests">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Intérêts</h2>
-                    <p>Je suis passionné par l'apprentissage continu et l'exploration de nouvelles connaissances. J'ai une grande curiosité pour le monde des affaires et les stratégies de marché. J'apprécie le sport, la lecture de livres, et le visionnage de documentaires qui élargissent ma compréhension du monde.</p>
-                    <p class="mb-0">Dans mon temps libre, j'aime la solitude, ce qui me permet de me concentrer sur des projets personnels et d'acquérir de nouvelles compétences. Je regarde également des films et séries, mais uniquement à des fins éducatives ou d'inspiration, pour analyser le storytelling et l'aspect visuel.</p>
-                </div>
-            </section>
-            <hr class="m-0" />
-            <section class="resume-section" id="awards">
-                <div class="resume-section-content">
-                    <h2 class="mb-5">Récompenses</h2>
-                    <ul class="fa-ul mb-0">
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            Attestation en Développement Web et Mobile
-                        </li>
-                        <li>
-                            <span class="fa-li"><i class="fas fa-trophy text-warning"></i></span>
-                            Médaille du Meilleur Joueur au collège
-                        </li>
-                    </ul>
-                </div>
-            </section>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const sections = document.querySelectorAll(".resume-section");
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add("is-visible");
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, {
-                    rootMargin: "0px",
-                    threshold: 0.2
-                });
-                sections.forEach(section => {
-                    observer.observe(section);
-                });
+        <div id="mobile-menu" class="hidden md:hidden bg-secondary border-t border-white/10">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#accueil" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md">Accueil</a>
+                <a href="#competences" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md">Compétences</a>
+                <a href="#projets" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md">Projets</a>
+                <a href="#processus" class="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md">Processus</a>
+                <a href="#contact" class="block px-3 py-2 text-base font-medium text-blue-400 hover:text-blue-300">Me Contacter</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="accueil" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-b from-transparent via-primary/50 to-primary"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal active order-2 lg:order-1">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-6">
+                        <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                        <span class="text-sm text-gray-300">Disponible pour de nouveaux projets</span>
+                    </div>
+                    
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold font-serif mb-6 leading-tight">
+                        Développeur Web & Mobile<br>
+                        <span class="gradient-text">Solutions Digitales pour Entreprises Africaines</span>
+                    </h1>
+                    
+                    <p class="text-xl md:text-2xl text-gray-400 mb-4 max-w-3xl font-light">
+                        Je transforme vos idées en solutions digitales performantes qui génèrent de la croissance
+                    </p>
+                    
+                    <p class="text-gray-400 mb-8 max-w-2xl text-lg leading-relaxed">
+                        Basé en Afrique, je accompagne entrepreneurs et PME dans leur transformation digitale. 
+                        De la conception de sites web professionnels aux applications mobiles sur mesure, 
+                        je livre des solutions fiables, modernes et adaptées aux réalités du marché africain.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center mb-8">
+                        <a href="#projets" class="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-semibold transition-all hover:scale-105 flex items-center justify-center gap-2">
+                            <span>Voir Mes Projets</span>
+                            <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                        </a>
+                        <a href="#contact" class="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full font-semibold transition-all hover:scale-105 flex items-center justify-center gap-2">
+                            <span>Discuter de Votre Projet</span>
+                            <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+
+                    <div class="flex items-center gap-4 text-sm text-gray-400">
+                        <div class="flex -space-x-2">
+                            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold border-2 border-primary">JS</div>
+                            <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-xs font-bold border-2 border-primary">R</div>
+                            <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-xs font-bold border-2 border-primary">N</div>
+                        </div>
+                        <span>React.js • Node.js • Laravel • WordPress</span>
+                    </div>
+                </div>
+
+                <div class="order-1 lg:order-2 flex justify-center lg:justify-end reveal active">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-blue-500/30 to-purple-500/30 rounded-full blur-3xl transform scale-110"></div>
+                        <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white/10 avatar-glow bg-secondary">
+                          <img src="proo.jpg"
+     alt="Photo de profil de TAPE Nestor Segnannou - Développeur Web & Mobile"
+     class="w-full h-full object-cover rounded-full"
+     onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center bg-gradient-to-br from-blue-600 to-purple-600 text-6xl font-bold text-white\'>TN</div>'">
+
+                        </div>
+                        <div class="absolute -bottom-4 -right-4 bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                            5+ ans d'expérience
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto reveal">
+                <div class="text-center glass-card p-4 rounded-2xl">
+                    <div class="text-3xl font-bold text-white mb-1">50+</div>
+                    <div class="text-sm text-gray-400">Projets Livrés</div>
+                </div>
+                <div class="text-center glass-card p-4 rounded-2xl">
+                    <div class="text-3xl font-bold text-white mb-1">30+</div>
+                    <div class="text-sm text-gray-400">Clients Satisfaits</div>
+                </div>
+                <div class="text-center glass-card p-4 rounded-2xl">
+                    <div class="text-3xl font-bold text-white mb-1">100%</div>
+                    <div class="text-sm text-gray-400">Engagement</div>
+                </div>
+                <div class="text-center glass-card p-4 rounded-2xl">
+                    <div class="text-3xl font-bold text-white mb-1">24/7</div>
+                    <div class="text-sm text-gray-400">Support Client</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i data-lucide="chevron-down" class="w-6 h-6 text-gray-400"></i>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="competences" class="py-24 bg-secondary/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4">Expertise Technique</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Des technologies modernes pour des solutions performantes et évolutives</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Web Development with React Highlight -->
+                <div class="glass-card p-8 rounded-2xl hover-lift reveal border-blue-500/30 border-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                            <i data-lucide="code-2" class="w-7 h-7 text-blue-400"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-bold">CORE</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Développement Web Frontend</h3>
+                    <p class="text-gray-400 mb-4 text-sm">Interfaces modernes, réactives et optimisées pour la conversion.</p>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-300 font-semibold flex items-center gap-2">
+                                <i data-lucide="atom" class="w-4 h-4 text-blue-400"></i>
+                                React.js
+                            </span>
+                            <span class="text-blue-400 font-bold">Expert</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-1.5">
+                            <div class="skill-bar w-[95%]"></div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-gray-300">HTML/CSS/JavaScript</span>
+                            <span class="text-blue-400">Avancé</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-1.5">
+                            <div class="skill-bar w-[90%]"></div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-gray-300">WordPress</span>
+                            <span class="text-blue-400">Avancé</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-1.5">
+                            <div class="skill-bar w-[85%]"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend & API with Node.js Highlight -->
+                <div class="glass-card p-8 rounded-2xl hover-lift reveal border-green-500/30 border-2">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-14 h-14 bg-green-500/20 rounded-xl flex items-center justify-center">
+                            <i data-lucide="server" class="w-7 h-7 text-green-400"></i>
+                        </div>
+                        <span class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-bold">CORE</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Backend & API</h3>
+                    <p class="text-gray-400 mb-4 text-sm">Architecture robuste, APIs sécurisées et gestion de données efficace.</p>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-300 font-semibold flex items-center gap-2">
+                                <i data-lucide="hexagon" class="w-4 h-4 text-green-400"></i>
+                                Node.js
+                            </span>
+                            <span class="text-green-400 font-bold">Expert</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-1.5">
+                            <div class="skill-bar w-[92%] bg-gradient-to-r from-green-500 to-emerald-500"></div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-gray-300">PHP / Laravel</span>
+                            <span class="text-green-400">Avancé</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-1.5">
+                            <div class="skill-bar w-[88%] bg-gradient-to-r from-green-500 to-emerald-500"></div>
+                        </div>
+                        
+                        <div class="flex justify-between items-center mt-3">
+                            <span class="text-gray-300">REST APIs</span>
+                            <span class="text-green-400">Avancé</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-1.5">
+                            <div class="skill-bar w-[90%] bg-gradient-to-r from-green-500 to-emerald-500"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Applications -->
+                <div class="glass-card p-8 rounded-2xl hover-lift reveal">
+                    <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="smartphone" class="w-7 h-7 text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Applications Web & Mobile</h3>
+                    <p class="text-gray-400 mb-4 text-sm">Solutions cross-platform engageantes et performantes.</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-purple-400"></i>
+                            <span>React Native</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-purple-400"></i>
+                            <span>Progressive Web Apps (PWA)</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-purple-400"></i>
+                            <span>Optimisation App Store</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Digital Marketing -->
+                <div class="glass-card p-8 rounded-2xl hover-lift reveal">
+                    <div class="w-14 h-14 bg-orange-500/20 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="trending-up" class="w-7 h-7 text-orange-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Marketing Digital & Stratégie Business</h3>
+                    <p class="text-gray-400 mb-4 text-sm">Stratégies data-driven pour augmenter votre visibilité et vos conversions.</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-orange-400"></i>
+                            <span>SEO & Référencement local</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-orange-400"></i>
+                            <span>Stratégie Social Media</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-orange-400"></i>
+                            <span>Optimisation Conversion (CRO)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Community Management -->
+                <div class="glass-card p-8 rounded-2xl hover-lift reveal">
+                    <div class="w-14 h-14 bg-pink-500/20 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="users" class="w-7 h-7 text-pink-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Community Management</h3>
+                    <p class="text-gray-400 mb-4 text-sm">Construction et animation de communautés engagées autour de votre marque.</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-pink-400"></i>
+                            <span>Gestion Réseaux Sociaux</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-pink-400"></i>
+                            <span>Création de Contenu</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-pink-400"></i>
+                            <span>Relation Client Digitale</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Responsive Design -->
+                <div class="glass-card p-8 rounded-2xl hover-lift reveal">
+                    <div class="w-14 h-14 bg-cyan-500/20 rounded-xl flex items-center justify-center mb-6">
+                        <i data-lucide="layout" class="w-7 h-7 text-cyan-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Design Responsive & Optimisation</h3>
+                    <p class="text-gray-400 mb-4 text-sm">Des interfaces parfaites sur tous les appareils, optimisées pour la performance.</p>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-cyan-400"></i>
+                            <span>Mobile-First Design</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-cyan-400"></i>
+                            <span>Performance & Vitesse</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-cyan-400"></i>
+                            <span>Compatibilité Multi-navigateurs</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projets" class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4">Projets Réalisés</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Des solutions concrètes qui résolvent de vrais problèmes business</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Project 1: LAB Training School -->
+                <div class="group reveal">
+                    <div class="relative overflow-hidden rounded-2xl bg-secondary border border-white/10 hover-lift">
+                        <div class="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 relative overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-900/40 to-purple-900/40">
+                                <div class="text-center">
+                                    <i data-lucide="graduation-cap" class="w-20 h-20 text-white/30 mx-auto mb-4"></i>
+                                    <span class="text-white/50 text-lg font-semibold">LAB Training School</span>
+                                </div>
+                            </div>
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <a href="https://labtrainingschool.com/" target="_blank" class="px-6 py-3 bg-white text-gray-900 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2">
+                                    <span>Visiter le Site</span>
+                                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-medium">Éducation</span>
+                                <span class="px-3 py-1 bg-white/10 text-gray-400 rounded-full text-xs font-medium">Formation Professionnelle</span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3 group-hover:text-blue-400 transition-colors">LAB Training School</h3>
+                            <p class="text-gray-400 mb-4 leading-relaxed">
+                                Centre de formation artisanale moderne souhaitant renforcer sa présence digitale. 
+                                J'ai conçu une plateforme complète permettant de présenter les formations de manière attractive, 
+                                établir la crédibilité de l'institution et simplifier la prise de contact pour les futurs apprenants. 
+                                Résultat : augmentation significative des demandes d'information et meilleure visibilité locale.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">React.js</span>
+                                <span class="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">Node.js</span>
+                                <span class="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">Responsive</span>
+                                <span class="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">SEO Local</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4 text-sm text-gray-400">
+                                    <span class="flex items-center gap-1">
+                                        <i data-lucide="calendar" class="w-4 h-4"></i>
+                                        2024
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <i data-lucide="clock" class="w-4 h-4"></i>
+                                        Livraison 3 semaines
+                                    </span>
+                                </div>
+                                <a href="https://labtrainingschool.com/" target="_blank" class="text-blue-400 hover:text-blue-300 flex items-center gap-1 text-sm font-semibold">
+                                    Voir le projet
+                                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Alozo -->
+                <div class="group reveal">
+                    <div class="relative overflow-hidden rounded-2xl bg-secondary border border-white/10 hover-lift">
+                        <div class="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 relative overflow-hidden">
+                            <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-orange-900/40 to-red-900/40">
+                                <div class="text-center">
+                                    <i data-lucide="handshake" class="w-20 h-20 text-white/30 mx-auto mb-4"></i>
+                                    <span class="text-white/50 text-lg font-semibold">Alozo</span>
+                                </div>
+                            </div>
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <a href="https://alozo.bj/" target="_blank" class="px-6 py-3 bg-white text-gray-900 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 flex items-center gap-2">
+                                    <span>Visiter le Site</span>
+                                    <i data-lucide="external-link" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="px-3 py-1 bg-orange-500/20 text-orange-400 rounded-full text-xs font-medium">Marketplace</span>
+                                <span class="px-3 py-1 bg-white/10 text-gray-400 rounded-full text-xs font-medium">Artisanat</span>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-3 group-hover:text-orange-400 transition-colors">Alozo</h3>
+                            <p class="text-gray-400 mb-4 leading-relaxed">
+                                Plateforme de mise en relation innovante entre artisans qualifiés et clients au Bénin. 
+                                Le défi : résoudre la difficulté de trouver des artisans fiables tout en créant des opportunités économiques. 
+                                Solution développée : un système de profils vérifiés, géolocalisation et évaluation permettant 
+                                de bâtir la confiance et de fluidifier les échanges. Impact direct sur l'économie locale.
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">React.js</span>
+                                <span class="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">Node.js</span>
+                                <span class="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">MongoDB</span>
+                                <span class="text-xs text-gray-500 bg-white/5 px-3 py-1 rounded-full">Géolocalisation</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4 text-sm text-gray-400">
+                                    <span class="flex items-center gap-1">
+                                        <i data-lucide="calendar" class="w-4 h-4"></i>
+                                        2024
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <i data-lucide="users" class="w-4 h-4"></i>
+                                        200+ Artisans inscrits
+                                    </span>
+                                </div>
+                                <a href="https://alozo.bj/" target="_blank" class="text-orange-400 hover:text-orange-300 flex items-center gap-1 text-sm font-semibold">
+                                    Voir le projet
+                                    <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center reveal">
+                <p class="text-gray-400 mb-4">Vous avez un projet similaire ou plus complexe ?</p>
+                <a href="#contact" class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 font-semibold transition-colors">
+                    Discutons de vos objectifs business
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="processus" class="py-24 bg-secondary/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4">Mon Processus de Travail</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Une méthodologie éprouvée pour garantir votre satisfaction</p>
+            </div>
+            
+            <div class="relative">
+                <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-blue-500/20 transform -translate-y-1/2 z-0"></div>
+                
+                <div class="grid md:grid-cols-5 gap-8 relative z-10">
+                    <div class="relative reveal">
+                        <div class="bg-primary border border-white/10 rounded-2xl p-6 hover-lift h-full">
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mb-4 mx-auto md:mx-0 ring-4 ring-primary">
+                                1
+                            </div>
+                            <h3 class="text-lg font-bold mb-2 text-center md:text-left">Analyse des Besoins</h3>
+                            <p class="text-gray-400 text-sm text-center md:text-left">Compréhension approfondie de vos objectifs business et de vos contraintes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="relative reveal">
+                        <div class="bg-primary border border-white/10 rounded-2xl p-6 hover-lift h-full">
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mb-4 mx-auto md:mx-0 ring-4 ring-primary">
+                                2
+                            </div>
+                            <h3 class="text-lg font-bold mb-2 text-center md:text-left">Proposition Stratégique</h3>
+                            <p class="text-gray-400 text-sm text-center md:text-left">Solution technique détaillée avec planning et investissement transparent.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="relative reveal">
+                        <div class="bg-primary border border-white/10 rounded-2xl p-6 hover-lift h-full">
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mb-4 mx-auto md:mx-0 ring-4 ring-primary">
+                                3
+                            </div>
+                            <h3 class="text-lg font-bold mb-2 text-center md:text-left">Design & Développement</h3>
+                            <p class="text-gray-400 text-sm text-center md:text-left">Création agile avec points d'étape réguliers pour valider l'avancement.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="relative reveal">
+                        <div class="bg-primary border border-white/10 rounded-2xl p-6 hover-lift h-full">
+                            <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mb-4 mx-auto md:mx-0 ring-4 ring-primary">
+                                4
+                            </div>
+                            <h3 class="text-lg font-bold mb-2 text-center md:text-left">Tests & Ajustements</h3>
+                            <p class="text-gray-400 text-sm text-center md:text-left">Validation rigoureuse et affinages selon vos retours.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="relative reveal">
+                        <div class="bg-primary border border-white/10 rounded-2xl p-6 hover-lift h-full">
+                            <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-lg mb-4 mx-auto md:mx-0 ring-4 ring-primary">
+                                5
+                            </div>
+                            <h3 class="text-lg font-bold mb-2 text-center md:text-left">Déploiement & Suivi</h3>
+                            <p class="text-gray-400 text-sm text-center md:text-left">Mise en ligne, formation et support continu pour assurer votre succès.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Languages Section -->
+    <section class="py-16 border-y border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8 reveal">
+                <div class="text-center md:text-left">
+                    <h3 class="text-2xl font-bold font-serif mb-2">Communication Sans Frontières</h3>
+                    <p class="text-gray-400">Je m'adapte à votre langue de préférence pour une collaboration fluide</p>
+                </div>
+                <div class="flex gap-6">
+                    <div class="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-full border border-white/10">
+                        <span class="text-2xl">🇫🇷</span>
+                        <div>
+                            <div class="font-semibold">Français</div>
+                            <div class="text-xs text-gray-400">Langue maternelle</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-full border border-white/10">
+                        <span class="text-2xl">🇬🇧</span>
+                        <div>
+                            <div class="font-semibold">Anglais</div>
+                            <div class="text-xs text-gray-400">Professionnel</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-blue-900/20 to-purple-900/20"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12 reveal">
+                <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4">Démarrons Votre Projet</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-lg">
+                    Prêt à transformer votre présence digitale ? Je suis là pour vous accompagner.
+                </p>
+            </div>
+            
+            <div class="glass-card rounded-3xl p-8 md:p-12 reveal">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="text-xl font-bold mb-6">Pourquoi me faire confiance ?</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="shield-check" class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0"></i>
+                                <span class="text-gray-300">Expertise technique pointue : React.js, Node.js, Laravel</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="zap" class="w-5 h-5 text-yellow-400 mt-0.5 flex-shrink-0"></i>
+                                <span class="text-gray-300">Compréhension réelle des enjeux business africains</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="headphones" class="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0"></i>
+                                <span class="text-gray-300">Accompagnement personnalisé de A à Z</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <i data-lucide="lock" class="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0"></i>
+                                <span class="text-gray-300">Solutions sécurisées, évolutives et pérennes</span>
+                            </li>
+                        </ul>
+                        
+                        <div class="mt-8 p-4 bg-white/5 rounded-xl border border-white/10">
+                            <p class="text-sm text-gray-400 italic">
+                                "Nestor a su comprendre nos besoins spécifiques et livrer une solution qui dépasse nos attentes. 
+                                Professionnalisme et réactivité au rendez-vous."
+                            </p>
+                            <p class="text-sm font-semibold mt-2 text-gray-300">— Directeur, LAB Training School</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <a href="https://wa.me/22960427001" target="_blank" class="flex items-center justify-center gap-3 w-full py-4 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold transition-all hover:scale-[1.02] group">
+                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                            <span>Discuter sur WhatsApp</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </a>
+                        
+                        <a href="https://www.facebook.com/share/1A5ppdC2FM/?mibextid=wwXIfr" target="_blank" class="flex items-center justify-center gap-3 w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold transition-all hover:scale-[1.02] group">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                            <span>Contacter sur Facebook</span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                        </a>
+                        
+                        <div class="pt-6 border-t border-white/10 text-center">
+                            <p class="text-sm text-gray-400 mb-2">Délai de réponse garanti</p>
+                            <p class="text-green-400 font-semibold flex items-center justify-center gap-2">
+                                <i data-lucide="clock" class="w-4 h-4"></i>
+                                Moins de 2 heures
+                            </p>
+                        </div>
+
+                        <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                            <p class="text-sm text-gray-300 text-center">
+                                <i data-lucide="map-pin" class="w-4 h-4 inline mr-1"></i>
+                                Basé en Afrique, disponible pour des projets internationaux
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Footer -->
+    <footer class="bg-secondary/80 border-t border-white/10 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <!-- Brand -->
+                <div class="md:col-span-1">
+                    <span class="text-2xl font-bold font-serif text-white block mb-4">
+                        TAPE<span class="text-blue-500">.</span>Dev
+                    </span>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        Développeur Web & Mobile spécialisé dans les solutions digitales pour entreprises africaines. 
+                        Je transforme vos défis business en opportunités digitales concrètes.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="https://wa.me/22960427001" target="_blank" class="w-10 h-10 rounded-full bg-white/5 hover:bg-green-600 flex items-center justify-center transition-all hover:scale-110">
+                            <i data-lucide="message-circle" class="w-5 h-5"></i>
+                        </a>
+                        <a href="https://www.facebook.com/share/1A5ppdC2FM/?mibextid=wwXIfr" target="_blank" class="w-10 h-10 rounded-full bg-white/5 hover:bg-blue-600 flex items-center justify-center transition-all hover:scale-110">
+                            <i data-lucide="facebook" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 hover:bg-gray-600 flex items-center justify-center transition-all hover:scale-110">
+                            <i data-lucide="github" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Services</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#competences" class="hover:text-white transition-colors">Développement Web (React, Node)</a></li>
+                        <li><a href="#competences" class="hover:text-white transition-colors">Applications Mobiles</a></li>
+                        <li><a href="#competences" class="hover:text-white transition-colors">Marketing Digital</a></li>
+                        <li><a href="#competences" class="hover:text-white transition-colors">Community Management</a></li>
+                        <li><a href="#competences" class="hover:text-white transition-colors">Conseil Digital</a></li>
+                    </ul>
+                </div>
+
+                <!-- Navigation -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Navigation</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#accueil" class="hover:text-white transition-colors">Accueil</a></li>
+                        <li><a href="#competences" class="hover:text-white transition-colors">Compétences</a></li>
+                        <li><a href="#projets" class="hover:text-white transition-colors">Projets Réalisés</a></li>
+                        <li><a href="#processus" class="hover:text-white transition-colors">Méthodologie</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-white font-bold mb-4">Contact Rapide</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="message-circle" class="w-4 h-4 text-green-400"></i>
+                            <a href="https://wa.me/22960427001" target="_blank" class="hover:text-white transition-colors">WhatsApp Business</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="facebook" class="w-4 h-4 text-blue-400"></i>
+                            <a href="https://www.facebook.com/share/1A5ppdC2FM/?mibextid=wwXIfr" target="_blank" class="hover:text-white transition-colors">Page Facebook</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i data-lucide="clock" class="w-4 h-4 text-yellow-400"></i>
+                            <span>Disponible Lun-Sam</span>
+                        </li>
+                    </ul>
+                    <div class="mt-4 p-3 bg-blue-600/20 rounded-lg border border-blue-500/30">
+                        <p class="text-xs text-blue-300 font-medium">✓ Disponible pour de nouveaux projets</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-gray-500">
+                    &copy; 2024 TAPE Nestor Segnannou. Tous droits réservés.
+                </p>
+                <p class="text-sm text-gray-500 flex items-center gap-2">
+                    <span>Conçu avec</span>
+                    <i data-lucide="heart" class="w-4 h-4 text-red-500 fill-red-500"></i>
+                    <span>pour les entreprises africaines</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        lucide.createIcons();
+        
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
             });
-        </script>
-    </body>
-
+        });
+        
+        const navbar = document.getElementById('navbar');
+        let lastScroll = 0;
+        
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                navbar.classList.add('shadow-lg');
+                navbar.classList.add('bg-primary/95');
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.classList.remove('bg-primary/95');
+            }
+            
+            lastScroll = currentScroll;
+        });
+        
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const skillBars = entry.target.querySelectorAll('.skill-bar');
+                    skillBars.forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0';
+                        setTimeout(() => {
+                            bar.style.width = width;
+                        }, 100);
+                    });
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.glass-card').forEach((el) => skillObserver.observe(el));
+    </script>
+</body>
 </html>
-
